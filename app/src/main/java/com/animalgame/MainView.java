@@ -84,13 +84,6 @@ public class MainView extends AppCompatActivity {
             }
         });
 
-        nbPlayersET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gameModeBattleB.setVisibility(View.GONE);
-                gameModeOneDeckB.setVisibility(View.GONE);
-            }
-        });
 
         gameModeBattleB.setOnClickListener(new View.OnClickListener() {
             @Override
