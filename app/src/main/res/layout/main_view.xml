@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="ExtraText">
+
+    <!-- TextViews -->
 
     <TextView
         android:text="Nombre de joueurs : "
@@ -28,12 +32,44 @@
         app:layout_constraintTop_toTopOf="@+id/horizontal_20">
     </TextView>
 
+    <TextView
+        android:id="@+id/stringPlayersNames"
+        android:text="Noms des joueurs humains : "
+        android:gravity="center"
+        android:textSize="20dp"
+        android:visibility="invisible"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintStart_toStartOf="@+id/vertical_5"
+        app:layout_constraintTop_toTopOf="@+id/horizontal_30">
+    </TextView>
+
+    <!-- Spinner -->
+
     <Spinner
         android:id="@+id/nbRealPlayers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/vertical_75"
         app:layout_constraintTop_toTopOf="@+id/horizontal_235"/>
+
+    <!-- ScrollView -->
+
+    <ScrollView
+        android:id="@+id/scrollViewPlayersNames"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintStart_toStartOf="@+id/vertical_15"
+        app:layout_constraintTop_toTopOf="@+id/horizontal_40">
+
+
+    </ScrollView>
+
+    <!-- EditText -->
 
     <EditText
         android:id="@+id/nbplayers"
@@ -46,7 +82,31 @@
         android:inputType="number">
     </EditText>
 
+    <!-- Buttons -->
 
+    <Button
+        android:id="@+id/gameModeOndeDeck"
+        android:text="Lancer une partie avec un seul parcours des decks"
+        android:textSize="15dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintStart_toStartOf="@+id/vertical_15"
+        app:layout_constraintBottom_toBottomOf="@+id/horizontal_80"
+        />
+
+    <Button
+        android:id="@+id/gameModeBattle"
+        android:text="Lancer une partie en mode bataille"
+        android:textSize="15dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintStart_toStartOf="@+id/vertical_15"
+        app:layout_constraintTop_toTopOf="@+id/horizontal_80"
+        />
 
 
     <!-- Guidelines horizontales -->
@@ -60,6 +120,14 @@
         />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/horizontal_235"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,12 +136,37 @@
         />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/horizontal_20"
+        android:id="@+id/horizontal_30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2"
+        app:layout_constraintGuide_percent="0.3"
         />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_40"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_70"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8"
+        />
+
 
     <!-- Guidelines verticales -->
 
@@ -83,6 +176,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.05"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15"
         />
 
     <androidx.constraintlayout.widget.Guideline
