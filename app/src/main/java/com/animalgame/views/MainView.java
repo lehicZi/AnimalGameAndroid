@@ -1,6 +1,6 @@
-package com.animalgame;
+package com.animalgame.views;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,14 +15,17 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.animalgame.DataShared;
+import com.animalgame.R;
+import com.animalgame.Utils;
 import com.animalgame.editTextManagement.EditTextGenerator;
-import com.animalgame.editTextManagement.EditTextsManager;
+import com.animalgame.objects.gameModes.Game;
+import com.animalgame.objects.player.Player;
+import com.animalgame.objects.player.PlayersList;
+import com.animalgame.objects.player.RealPlayer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 public class MainView extends AppCompatActivity {
 
@@ -35,10 +38,12 @@ public class MainView extends AppCompatActivity {
     private ScrollView playersNamesSV;
     private TextView stringAskPlayersNames;
 
+    private Game game = DataShared.getInstance().getGame();
+
     private EditTextGenerator editTextGenerator;
 
     @Override
-    public void onCreate(Bundle bundle){
+    public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.setContentView(R.layout.main_view);
 
@@ -47,7 +52,7 @@ public class MainView extends AppCompatActivity {
         setListeners();
     }
 
-    private void instanciateView(){
+    private void instanciateView() {
         nbPlayersET = findViewById(R.id.nbplayers);
         nbRealPlayersS = findViewById(R.id.nbRealPlayers);
         gameModeBattleB = findViewById(R.id.gameModeBattle);
@@ -57,7 +62,7 @@ public class MainView extends AppCompatActivity {
         this.editTextGenerator = new EditTextGenerator(this, playersNamesSV);
     }
 
-    private void setListeners(){
+    private void setListeners() {
         nbPlayersET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -68,11 +73,10 @@ public class MainView extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 stringAskPlayersNames.setVisibility(View.VISIBLE);
                 String saisie = s.toString();
-                if (saisie.isEmpty()){
+                if (saisie.isEmpty()) {
                     nbPlayers = 0;
                     nbRealPlayersS.setAdapter(null);
-                }
-                else {
+                } else {
                     nbPlayers = Integer.parseInt(saisie);
                     setSpinnerValue();
                 }
@@ -84,11 +88,15 @@ public class MainView extends AppCompatActivity {
             }
         });
 
+        Context thisContext = this;
 
         gameModeBattleB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchActivities();
+                PlayersList realPlayers = new PlayersList();
+                addRealPlayers(realPlayers);
+                DataShared.getInstance().setNewBattleGame(nbPlayers, nbRealPlayers, realPlayers);
+                Utils.openOtherActivity(BattleView.class, thisContext);
 
             }
         });
@@ -96,7 +104,10 @@ public class MainView extends AppCompatActivity {
         gameModeOneDeckB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchActivities();
+                PlayersList realPlayers = new PlayersList();
+                addRealPlayers(realPlayers);
+                DataShared.getInstance().setNewOneDeckGame(nbPlayers, nbRealPlayers, realPlayers);
+                Utils.openOtherActivity(BattleView.class, thisContext);
 
             }
         });
@@ -104,7 +115,7 @@ public class MainView extends AppCompatActivity {
         nbRealPlayersS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection =(String) parent.getItemAtPosition(position);
+                String selection = (String) parent.getItemAtPosition(position);
                 nbRealPlayers = Integer.parseInt(selection);
                 editTextGenerator.clearLayout();
                 editTextGenerator.clearEditTextList();
@@ -120,9 +131,9 @@ public class MainView extends AppCompatActivity {
 
     }
 
-    private void setSpinnerValue(){
+    private void setSpinnerValue() {
         List<String> propositions = new ArrayList<>();
-        for (int i = 1 ; i <= nbPlayers ; i++ ){
+        for (int i = 1; i <= nbPlayers; i++) {
             propositions.add(String.valueOf(i));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, propositions);
@@ -132,16 +143,22 @@ public class MainView extends AppCompatActivity {
     }
 
 
-    private void createPlayersNamesFields(){
-        for (int playerIndex = 0 ; playerIndex < nbRealPlayers ; playerIndex ++){
-            editTextGenerator.addEditText();;
+    private void createPlayersNamesFields() {
+        for (int playerIndex = 0; playerIndex < nbRealPlayers; playerIndex++) {
+            editTextGenerator.addEditText();
         }
     }
 
+    public void addRealPlayers(PlayersList realPlayers) {
+        for (final EditText editText : this.editTextGenerator.getEditTextListe()) {
+            final String playerName = editText.getText().toString().trim();
 
-    private void switchActivities() {
-        Intent switchActivityIntent = new Intent(this, BattleView.class);
-        startActivity(switchActivityIntent);
+            if (!playerName.isEmpty()) {
+                final Player player = new RealPlayer(playerName) {
+                };
+                realPlayers.addPlayer(player);
+            }
+        }
+
     }
-
 }
