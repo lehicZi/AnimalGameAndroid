@@ -15,8 +15,8 @@ public class OneDeckGame extends Game{
      * @param numberRealPlayers le nombre de joueurs humains
      */
 
-    public OneDeckGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList) {
-        super(numberPlayers, numberRealPlayers, realPlayersList);
+    public OneDeckGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList) {
+        super(numberPlayers, numberRealPlayers, realPlayersList, AIPlayersList, playersList);
     }
 
     /**implémente le déroulé de la partie pour ce type de partie.

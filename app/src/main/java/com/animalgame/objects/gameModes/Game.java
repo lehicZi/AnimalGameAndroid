@@ -46,20 +46,18 @@ public abstract class Game {
      * @param numberRealPlayers Le nombre de joueurs humains
      */
 
-    public Game(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList) {
+    public Game(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList) {
         AllAnimals cards = new AllAnimals();
         this.numberPlayers = numberPlayers;
         this.numberRealPlayers = numberRealPlayers;
         listAllCards = cards.getAllAnimals();
         numberCardsFree = listAllCards.size();
         numberCardsPerplayer = numberCardsFree / numberPlayers;
-        this.playersList = new PlayersList();
+        this.playersList = playersList;
         this.realPlayersList = realPlayersList;
-        this.AIPlayersList = new PlayersList();
+        this.AIPlayersList = AIPlayersList;
         createRealPlayersIntialDecks();
-        createAIPlayersListAndInitialDecks();
-        playersList.addAllPlayers(realPlayersList);
-        playersList.addAllPlayers(AIPlayersList);
+        createAIPlayersIntialDecks();
     }
 
     public void setRealPlayersList (PlayersList realPlayersList){
@@ -94,21 +92,15 @@ public abstract class Game {
      * Pour tous les animaux du deck initial, indique que le propriétaire est le joueur possédant le deck.
      */
 
-    public void createAIPlayersListAndInitialDecks() {
-        Player player;
+    public void createAIPlayersIntialDecks() {
         Deck initialDeck;
-        String AIsname;
-        for (int nameIndex = 0; nameIndex < (numberPlayers-numberRealPlayers); nameIndex++) {
-            AIsname = "Bot " + (nameIndex + 1);
+        for (Player player : AIPlayersList.getallPlayers()) {
             initialDeck = deal();
-            player = new AIPlayer(AIsname);
             player.setPlayersInitialDeck(initialDeck);
             for (Animal animal : initialDeck.getListCards()) {
                 animal.setOwner(player);
             }
-            AIPlayersList.addPlayer(player);
         }
-
     }
 
     /** Permet de distribuer des decks initiaux randomisés.
@@ -116,7 +108,7 @@ public abstract class Game {
      * @return un Deck randomisé comportant numberCardsPerPlayer cartes.
      */
     
-    public Deck deal(){
+    private Deck deal(){
         Random random = new Random();
         Deck deckDealt = new Deck();
         int numberCardstoDeal = numberCardsPerplayer;
@@ -183,7 +175,7 @@ public abstract class Game {
      * @param annonce annonce à construire.
      */
 
-    protected void addAnimalsAndBuildAnounce(int currentFight, List <Animal> fightingAnimals, StringBuilder annonce){
+    public void addAnimalsAndBuildAnounce(int currentFight, List <Animal> fightingAnimals, StringBuilder annonce){
 
         for (int playerIndex = 0; playerIndex < numberPlayers; playerIndex++) {
             Player currentPlayer = playersList.getPlayer(playerIndex);
@@ -282,5 +274,7 @@ public abstract class Game {
         return numberCardsFree;
     }
 
-
+    public PlayersList getRealPlayersList() {
+        return realPlayersList;
+    }
 }

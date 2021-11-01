@@ -1,6 +1,7 @@
 package com.animalgame;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 
@@ -48,5 +49,16 @@ public class Utils {
 
     public static Comparator<Player> playerComparator(){
         return Comparator.comparingInt(Player::getOrder);
+    }
+
+    public static void showMessage(final String titre,
+                                   final String message,
+                                   final Context context)
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(true);
+        builder.setTitle(titre);
+        builder.setMessage(message);
+        builder.show();
     }
 }

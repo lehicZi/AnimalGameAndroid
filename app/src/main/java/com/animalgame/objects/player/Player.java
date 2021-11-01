@@ -1,4 +1,6 @@
 package com.animalgame.objects.player;
+import androidx.annotation.NonNull;
+
 import com.animalgame.objects.Deck;
 
 import java.util.ArrayList;
@@ -96,9 +98,26 @@ public abstract class Player {
      * @return Le nom du joueur
      */
 
+    @NonNull
     @Override
     public String toString(){
         return playerName;
+    }
+
+
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof String) && !(o instanceof Player) ){
+            return false;
+        }
+        else if (o instanceof Player)
+        {
+            return this.getPlayerName().equals(((Player) o).getPlayerName());
+        }
+        else
+        {
+            return this.getPlayerName().equals(o);
+        }
     }
 
 }

@@ -21,7 +21,7 @@ public class Animal{
     private final double longevite;
     private final double gestationIncubation;
     private final int rarete;
-    private final Resources visual;
+//    private final Resources visual;
     private Player owner;
 
     /**Constructeur de la classe
@@ -34,14 +34,14 @@ public class Animal{
      * @param rarete sa rareté
      */
 
-    public Animal(String nom, double poids, double longueur, double longevite, double gestation_incubation, int rarete, Resources visual) {
+    public Animal(String nom, double poids, double longueur, double longevite, double gestation_incubation, int rarete) {
         this.nom = nom;
         this.poids = poids;
         this.longueur = longueur;
         this.longevite = longevite;
         this.gestationIncubation = gestation_incubation;
         this.rarete = rarete;
-        this.visual = visual;
+//        this.visual = visual;
     }
 
     /**Permet de récupérer la valeur d'un attribut en fonction d'un code

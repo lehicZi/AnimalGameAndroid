@@ -16,8 +16,8 @@ public class BattleGame extends Game{
      * @param numberRealPlayers le nombre de joueurs humains
      */
 
-    public BattleGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList) {
-        super(numberPlayers, numberRealPlayers, realPlayersList);
+    public BattleGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList) {
+        super(numberPlayers, numberRealPlayers, realPlayersList, AIPlayersList, playersList);
     }
 
     /**Pour tous les joueurs, vérifie si leurs deck actuel (initialDeck) est vide

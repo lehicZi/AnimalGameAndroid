@@ -29,11 +29,11 @@ public class DataShared {
         return game;
     }
 
-    public void setNewOneDeckGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList){
-        this.game = new OneDeckGame(numberPlayers,numberRealPlayers, realPlayersList);
+    public void setNewOneDeckGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList){
+        this.game = new OneDeckGame(numberPlayers,numberRealPlayers, realPlayersList, AIPlayersList, playersList);
     }
 
-    public void setNewBattleGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList){
-        this.game = new BattleGame(numberPlayers,numberRealPlayers, realPlayersList);
+    public void setNewBattleGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList){
+        this.game = new BattleGame(numberPlayers,numberRealPlayers, realPlayersList, AIPlayersList, playersList);
     }
 }
