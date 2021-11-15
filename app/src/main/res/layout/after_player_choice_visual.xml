@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <!-- TextViews -->
+
+        <TextView
+            android:id="@+id/winneranonce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="eedrfr"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/fighWas"
+            android:text="Le combat était :"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/winneranonce"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/attributeAnonce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fighWas"
+            android:layout_marginTop="10dp"
+            android:text="fuhei"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/gameModeSpecificIndication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fightAnonce"
+            android:layout_marginTop="20dp"
+            android:text="fuhei"
+            android:textSize="18sp" />
+        <!-- RecyclerView -->
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fightAnonce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/attributeAnonce"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+        <!-- Button -->
+
+        <Button
+            android:id="@+id/nextButton"
+            android:text="suivant"
+            android:textSize="20sp"
+            android:layout_below="@+id/gameModeSpecificIndication"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

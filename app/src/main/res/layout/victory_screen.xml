@@ -5,29 +5,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/winneranonce"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
+        android:id="@+id/winnerAnonce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="30sp"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintStart_toStartOf="@+id/vertical_5"
-        app:layout_constraintTop_toTopOf="@+id/horizontal_10"/>
-
-    <TextView
-        android:text="Le combat était :"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
         android:gravity="center"
-        android:textSize="20sp"
-        app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintWidth_percent="0.9"
         app:layout_constraintStart_toStartOf="@+id/vertical_5"
-        app:layout_constraintTop_toTopOf="@+id/horizontal_235"/>
+        app:layout_constraintEnd_toEndOf="@+id/vertical_95"
+        app:layout_constraintTop_toTopOf="@+id/horizontal_10" />
 
     <TextView
-        android:id="@+id/fightAnonce"
+        android:id="@+id/victoriesAnonce"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -37,6 +25,32 @@
         app:layout_constraintStart_toStartOf="@+id/vertical_5"
         app:layout_constraintTop_toTopOf="@+id/horizontal_30"/>
 
+
+    <!-- Buttons -->
+
+    <Button
+        android:id="@+id/buttonGoMainView"
+        android:text="Retourner au menu principal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintStart_toStartOf="@+id/vertical_5"
+        app:layout_constraintTop_toTopOf="@+id/horizontal_70">
+
+    </Button>
+
+    <Button
+        android:id="@+id/buttonClose"
+        android:text="fermer l'application"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintStart_toStartOf="@+id/vertical_5"
+        app:layout_constraintBottom_toBottomOf="@+id/horizontal_90">
+
+    </Button>
 
     <!-- Guidelines horizontales -->
 
@@ -94,11 +108,11 @@
         app:layout_constraintGuide_percent="0.68"
         />
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/horizontal_72"
+        android:id="@+id/horizontal_70"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.72"
+        app:layout_constraintGuide_percent="0.70"
         />
 
     <androidx.constraintlayout.widget.Guideline
@@ -134,6 +148,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.75"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

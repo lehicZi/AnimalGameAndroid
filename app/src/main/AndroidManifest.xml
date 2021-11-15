@@ -11,13 +11,16 @@
         android:theme="@style/Theme.AnimalGame">
 
         <activity android:name=".views.MainView"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".views.BattleView"/>
+        <activity android:name=".views.AfterPlayerChoice"/>
+        <activity android:name=".views.VictoryScreen"/>
 
 
     </application>

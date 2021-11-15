@@ -1,8 +1,12 @@
 package com.animalgame.objects.player;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+
 import com.animalgame.Utils;
 
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RealPlayer extends Player{
     /** Classe fille de Player, représentant un joueur humain.
@@ -12,6 +16,7 @@ public class RealPlayer extends Player{
 
     public RealPlayer(String playerName) {
         super(playerName);
+        isReal = true;
     }
 
     /** Implémente le choix d'attribut pour un joueur humain.
@@ -44,20 +49,9 @@ public class RealPlayer extends Player{
      */
 
     @Override
-    public  boolean switchAttributeProposal() {
-        Scanner scanner = new Scanner(System.in);
-        // On propose au joueur de changer l'attribut.
-        System.out.println("Your animal's rareté is higher than VERT, do you want to try to change the effective attribute ? (1 : yes, 2 : no).");
-        String userChoice = scanner.next();
+    public boolean switchAttributeProposal() {
 
-        while (!(Utils.isAnInt(userChoice))
-                || !Utils.isBetweenXAndY(Integer.parseInt(userChoice), 1, 2)){
-            // si l'utilisateur entre une valeur erronée (pas un int ou pas entre 1 et 4), relance le choix.
-            System.out.println("is it too hard to enter 1 or 2 ?");
-            userChoice = scanner.next();
-        }
-
-        return Integer.parseInt(userChoice) == 1;
+        return true;
     }
 
     /** Implémente le choix d'attribut pour un joueur humain.

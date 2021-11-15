@@ -1,6 +1,9 @@
 package com.animalgame.objects.player;
 
+import android.app.Activity;
+
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AIPlayer extends Player{
     /** Classe fille de Player, représentant un joueur IA.
@@ -10,6 +13,7 @@ public class AIPlayer extends Player{
 
     public AIPlayer(String playerName) {
         super(playerName);
+        this.isReal = false;
     }
 
     /** Implémente le choix d'attribut pour un joueur IA.
@@ -29,8 +33,8 @@ public class AIPlayer extends Player{
      */
 
     @Override
-    public  boolean switchAttributeProposal(){
-        return true;
+    public boolean switchAttributeProposal(){
+       return true;
     }
 
     /** Implémente le choix d'attribut pour un joueur IA.

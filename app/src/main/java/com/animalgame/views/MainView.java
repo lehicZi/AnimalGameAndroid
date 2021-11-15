@@ -1,6 +1,6 @@
 package com.animalgame.views;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,9 +21,9 @@ import com.animalgame.DataShared;
 import com.animalgame.R;
 import com.animalgame.Utils;
 import com.animalgame.editTextManagement.EditTextGenerator;
-import com.animalgame.objects.Animal;
-import com.animalgame.objects.Deck;
+import com.animalgame.objects.gameModes.BattleGame;
 import com.animalgame.objects.gameModes.Game;
+import com.animalgame.objects.gameModes.OneDeckGame;
 import com.animalgame.objects.player.AIPlayer;
 import com.animalgame.objects.player.Player;
 import com.animalgame.objects.player.PlayersList;
@@ -45,6 +45,8 @@ public class MainView extends AppCompatActivity {
     private TextView stringAskPlayersNames;
 
     private RadioGroup starterRG;
+    private RadioButton realPlayerRB;
+    private RadioButton AIPlayerRB;
     private TextView whoStartsTV;
     private TextView whoRealTV;
     private Spinner realStarterS;
@@ -75,6 +77,8 @@ public class MainView extends AppCompatActivity {
         stringAskPlayersNames = findViewById(R.id.stringPlayersNames);
 
         starterRG = findViewById(R.id.radioGroupStarter);
+        realPlayerRB = findViewById(R.id.radioHumainPlayer);
+        AIPlayerRB = findViewById(R.id.radioAIPlayer);
         whoStartsTV = findViewById(R.id.stringStarter);
         whoRealTV = findViewById(R.id.stringStarterPlayer);
         realStarterS = findViewById(R.id.realStarter);
@@ -114,31 +118,37 @@ public class MainView extends AppCompatActivity {
             }
         });
 
-        Context thisContext = this;
+        Activity thisContext = this;
 
         gameModeBattleB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addRealPlayers();
-
-                createAIPlayersList();
-
-                PlayersList playersList = new PlayersList();
-                playersList.addAllPlayers(realPlayers);
-                playersList.addAllPlayers(AIPlayers);
 
                 try {
+                    addRealPlayers();
+
+                    createAIPlayersList();
+
+                    PlayersList playersList = new PlayersList();
+                    playersList.addAllPlayers(realPlayers);
+                    playersList.addAllPlayers(AIPlayers);
+
+
                     playersList.giveOrder(starter);
                     playersList.orderPlayersList();
 
-                    DataShared.getInstance().setNewBattleGame(nbPlayers, nbRealPlayers, realPlayers, AIPlayers, playersList);
+                    BattleGame battleGame = new BattleGame(nbPlayers, nbRealPlayers, realPlayers, AIPlayers, playersList);
+
+                    DataShared.getInstance().setNewGame(battleGame);
                     Utils.openOtherActivity(BattleView.class, thisContext);
                 }
                 catch (ArrayIndexOutOfBoundsException e){
                     Utils.showMessage("erreur", "Le joueur désigné pour commencer n'existe plus !", thisContext);
                     setRealStarterSpinnerValue();
                 }
-
+                catch (IllegalStateException e){
+                    Utils.showMessage("Erreur", "Un joueur n'a pas de nom !", thisContext);
+                }
 
 
             }
@@ -147,25 +157,32 @@ public class MainView extends AppCompatActivity {
         gameModeOneDeckB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addRealPlayers();
-
-                createAIPlayersList();
-
-                PlayersList playersList = new PlayersList();
-                playersList.addAllPlayers(realPlayers);
-                playersList.addAllPlayers(AIPlayers);
-
                 try {
+                    addRealPlayers();
+
+                    createAIPlayersList();
+
+                    PlayersList playersList = new PlayersList();
+                    playersList.addAllPlayers(realPlayers);
+                    playersList.addAllPlayers(AIPlayers);
+
+
                     playersList.giveOrder(starter);
                     playersList.orderPlayersList();
 
-                    DataShared.getInstance().setNewOneDeckGame(nbPlayers, nbRealPlayers, realPlayers, AIPlayers, playersList);
+                    OneDeckGame oneDeckGame = new OneDeckGame(nbPlayers, nbRealPlayers, realPlayers, AIPlayers, playersList);
+
+                    DataShared.getInstance().setNewGame(oneDeckGame);
                     Utils.openOtherActivity(BattleView.class, thisContext);
                 }
                 catch (ArrayIndexOutOfBoundsException e){
-                    Utils.showMessage("erreur", "Le joueur désigné pour commencer n'existe plus !", thisContext);
+                    Utils.showMessage("Erreur", "Le joueur désigné pour commencer n'existe plus !", thisContext);
                     setRealStarterSpinnerValue();
                 }
+                catch (IllegalStateException e){
+                    Utils.showMessage("Erreur", "Un joueur n'a pas de nom !", thisContext);
+                }
+
 
 
             }
@@ -179,6 +196,12 @@ public class MainView extends AppCompatActivity {
                 editTextGenerator.clearLayout();
                 editTextGenerator.clearEditTextList();
                 createPlayersNamesFields();
+                if (nbRealPlayers == nbPlayers){
+                    AIPlayerRB.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    AIPlayerRB.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -242,6 +265,10 @@ public class MainView extends AppCompatActivity {
                 };
                 newRealPlayers.addPlayer(player);
             }
+
+            else {
+                throw new IllegalStateException("Un joueur a n'a pas de nom !");
+            }
         }
         this.realPlayers = newRealPlayers;
 
@@ -279,8 +306,16 @@ public class MainView extends AppCompatActivity {
                     whoRealTV.setVisibility(View.VISIBLE);
                     realStarterS.setVisibility(View.VISIBLE);
 
-                    addRealPlayers();
-                    setRealStarterSpinnerValue();
+                    try {
+
+                        addRealPlayers();
+                        setRealStarterSpinnerValue();
+                    }
+                    catch (IllegalStateException e){
+                        Utils.showMessage("Erreur", "Une joueur n'a pas de nom !", this);
+                    }
+
+
 
                 }
                     break;
@@ -311,6 +346,7 @@ public class MainView extends AppCompatActivity {
         realStarterS.setAdapter(adapter);
 
     }
+
 
 
 }

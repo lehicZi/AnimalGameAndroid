@@ -12,10 +12,11 @@ import java.util.Comparator;
 
 public class Utils {
 
-    public static void openOtherActivity(final Class classToOpen, final Context context)
+    public static void openOtherActivity(final Class<?> classToOpen, final Activity activity)
     {
-        final Intent intent = new Intent (context, classToOpen);
-        context.startActivity(intent);
+        final Intent intent = new Intent (activity, classToOpen);
+        activity.startActivity(intent);
+        activity.finish();
     }
 
     /** Vérifie si un String est bien un entier.

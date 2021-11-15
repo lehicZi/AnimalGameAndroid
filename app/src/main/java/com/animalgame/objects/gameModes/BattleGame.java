@@ -4,9 +4,7 @@ import com.animalgame.objects.Animal;
 import com.animalgame.objects.player.Player;
 import com.animalgame.objects.player.PlayersList;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class BattleGame extends Game{
     /** Classe fille de Game, représentant une partie dont le déroulé est proche d'une bataille : les joueurs gagnent
@@ -16,8 +14,28 @@ public class BattleGame extends Game{
      * @param numberRealPlayers le nombre de joueurs humains
      */
 
+
     public BattleGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList) {
         super(numberPlayers, numberRealPlayers, realPlayersList, AIPlayersList, playersList);
+        this.gameMode = GameModes.BATTLEGAME;
+    }
+
+
+    @Override
+    public boolean isFinished (){
+
+        for (int playerIndex = 1; playerIndex < playersList.getallPlayers().size(); playerIndex++){
+            Player player = playersList.getPlayer(playerIndex);
+
+            if ( player.getPlayersInitialDeck().getNumberCards() + player.getPlayersWinnedCards().getNumberCards() == 0){
+
+                return true;
+            }
+
+        }
+
+        return false;
+
     }
 
     /**Pour tous les joueurs, vérifie si leurs deck actuel (initialDeck) est vide
@@ -27,6 +45,7 @@ public class BattleGame extends Game{
     private void checkAndReplaceDeck (){
         for (Player player : playersList.getallPlayers()){
             if (player.getPlayersInitialDeck().getNumberCards() == 0){
+//                System.out.println("Done for "+player);
                 player.getPlayersWinnedCards().shuffleDeck();
                 player.replaceInitialDeck();
             }
@@ -34,103 +53,50 @@ public class BattleGame extends Game{
         }
     }
 
-    /** Pour tous les joueurs, enlève le premier animal de leur deck actuel (initialDeck)
+    /** Pour tous les joueurs, enlève le premier animal de leur deck actuel (initialDeck), et
+     * Donne tous les animaux du fight au gagnant.
      */
 
-    private void removeAnimals(){
-        for (int playerIndex = 0; playerIndex < numberPlayers; playerIndex++) {
+    private void removeAnimalsAndGiveToWinner(){
+
+        Fight lastFight = getLastFight();
+        Player winner = lastFight.getPlayerWinner();
+        List <Animal> fightingAnimal = lastFight.getFightingAnimals();
+
+        for (int playerIndex = 0; playerIndex < numberPlayers; playerIndex++){
+
             Player currentPlayer = playersList.getPlayer(playerIndex);
-            currentPlayer.getPlayersInitialDeck().getListCards().remove(0);
-        }
-    }
+            Animal currentAnimal = currentPlayer.getPlayersInitialDeck().getListCards().remove(0);
 
-    /**implémente le déroulé de la partie pour ce type de partie.
-     */
+            currentAnimal.setOwner(winner);
+        }
+
+        winner.getPlayersWinnedCards().getListCards().addAll(fightingAnimal);
+
+    }
+    private void resetHistory(){
+        history.clear();
+    }
 
     @Override
-    public void playersFight(){
+    public void afterFightActions(){
 
-        playersList.orderPlayersList();
-        //le perdant est défini comme le denier joueur de liste des joueurs ordonnée, car il n'a forcément pas gagné.
-        Player playerLoser = playersList.getPlayer(numberPlayers-1);
-        //Overture d'un scanner pour marquer une pause à la fin de chaque manche.
-        Scanner scanner = new Scanner(System.in);
+        removeAnimalsAndGiveToWinner();
+        checkAndReplaceDeck();
+        resetHistory();
 
-        // On enchaine les manches tant que le perdant de la dernière manche a encore des cartes.
-        while (playerLoser.getPlayersInitialDeck().getNumberCards() + playerLoser.getPlayersWinnedCards().getNumberCards() > 0) {
-
-            checkAndReplaceDeck();
-
-            List<Animal> fightingAnimals = new ArrayList<>();
-            StringBuilder annonce = new StringBuilder();
-            // Le joueur qui commence est le premier joueur de la liste ordonnée, donc le joueur avec dont l'attribut Order
-            // vaut 1.
-            Player starter = playersList.getPlayer(0);
-
-            printAnimalStats(0);
-
-            addAnimalsAndBuildAnounce(0, fightingAnimals, annonce);
-
-//            System.out.println(annonce);
-            // Le codeEffectiveAttribute est le code permettant de connaître l'attribut effectif, il est print ici, mais
-            // peut changer après
-            int codeEffectiveAttribute = starter.attributeChoice();
-
-            // On récupère l'animal du joueur qui commence
-            Animal startersAnimal = starter.getPlayersInitialDeck().getListCards().get(0);
-
-            System.out.println(starter + " chose " + startersAnimal.getAttributesName(codeEffectiveAttribute));
-
-            // Partie changement d'attribut
-            final int newCodeEffectiveAttribute = attributeSwitching(0, starter, startersAnimal);
-            // if permettant de prendre en compte le nouveau code s'il ne vaut pas -1, sinon, l'ancien est gardé.
-            codeEffectiveAttribute = newCodeEffectiveAttribute == -1 ? codeEffectiveAttribute : newCodeEffectiveAttribute;
-
-
-            Animal animalWinner = Fight.animalFight(codeEffectiveAttribute, fightingAnimals);
-//            System.out.println(animalWinner);
-            Player playerWinner = animalWinner.getOwner();
-//            System.out.println(playerWinner);
-            playerWinner.incrementVictories();
-
-            System.out.println("The fight was " + annonce);
-            System.out.println(animalWinner.getOwner() + " wins with his " + animalWinner.getNom());
-
-            // Tous les animaux de cette manche sont ajoutés aux winnedcards du gagnant
-            playerWinner.getPlayersWinnedCards().getListCards().addAll(fightingAnimals);
-            // Pour tous ces animaux, leur propriétaire est redéfinit sur le gagnant
-            for (Animal animal : fightingAnimals){
-                animal.setOwner(playerWinner);
-            }
-
-            // L'ordre des joueurs est redéfini en fonction du gagnant
-            playersList.giveOrder(playerWinner);
-            // La liste des joueurs est réordonnée
-            playersList.orderPlayersList();
-
-            // Le nouveau perdant est défini comme le denier joueur de liste des joueurs ordonnée,
-            // car il n'a forcément pas gagné.
-            playerLoser = playersList.getPlayer(numberPlayers-1);
-
-//            System.out.println(orderPlayersList());
-
-            // Le premier animal de chaque joueur est en fait l'animal ayant participé à cette manche.
-            removeAnimals();
-            // La prochaine manche se déroulera donc, de même façon, sur les animaux d'indice 0.
-
-//            for (Player player : playersList){
-//                System.out.println(player.getPlayersInitialDeck().getListCards());
-//            }
-
-            //Permet de bloquer le déroulé du code pour avoir une pause à la fin d'un manche
-            System.out.println("Please tap any thing to pursue.");
-            scanner.next();
-
-        }
-
-        scanner.close();
-        System.out.println(playerLoser + " loses because he has no cards left.");
     }
+
+    @Override
+    public StringBuilder setSpecificGameModeIndication(){
+        StringBuilder indication = new StringBuilder();
+
+        indication.append("Ces cartes sont donc récupérées par ").append(getLastFight().getPlayerWinner()).append(" !");
+        return indication;
+
+    }
+
+
 
 
 

@@ -1,9 +1,6 @@
 package com.animalgame;
 
-import com.animalgame.objects.gameModes.BattleGame;
 import com.animalgame.objects.gameModes.Game;
-import com.animalgame.objects.gameModes.OneDeckGame;
-import com.animalgame.objects.player.PlayersList;
 
 public class DataShared {
 
@@ -12,7 +9,7 @@ public class DataShared {
     private Game game;
 
     private DataShared() {
-;
+
     }
 
     public static DataShared getInstance()
@@ -29,11 +26,12 @@ public class DataShared {
         return game;
     }
 
-    public void setNewOneDeckGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList){
-        this.game = new OneDeckGame(numberPlayers,numberRealPlayers, realPlayersList, AIPlayersList, playersList);
+    public void setNewGame(Game game){
+        this.game = game;
     }
 
-    public void setNewBattleGame(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList){
-        this.game = new BattleGame(numberPlayers,numberRealPlayers, realPlayersList, AIPlayersList, playersList);
+
+    public void resetGame (){
+        this.game = null;
     }
 }

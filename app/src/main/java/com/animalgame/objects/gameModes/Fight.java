@@ -1,32 +1,43 @@
 package com.animalgame.objects.gameModes;
 
 import com.animalgame.objects.Animal;
+import com.animalgame.objects.player.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Fight {
     /**Classe utilitaire permettant de définir comment si passe un combat entre n animaux.
         Constructeur privé, car la classe n'a pas à être instanciée.
      */
-    private Fight() {
 
+    private int effectiveAttribute;
+    private List<Animal> fightingAnimals;
+    private Animal animalWinner;
+    private Player playerWinner;
+
+
+    public Fight(List<Animal> fightingAnimals, int effectiveAttribute) {
+        this.fightingAnimals = new ArrayList<>();
+
+        this.fightingAnimals.addAll(fightingAnimals);
+
+        this.effectiveAttribute = effectiveAttribute;
     }
 
     /** Définit un animal gagnant en fonction animaux présents et de l'attribut choisi
-     * @param effectiveAttribute l'attribut choisi
-     * @param fightingAnimals les animaux présents
-     * @return l'animal gagnant
      */
 
-    public static Animal animalFight (int effectiveAttribute, List<Animal> fightingAnimals) {
+    public void animalFight () {
 
-        Animal winner = fightingAnimals.get(0);
+        Animal winner = this.fightingAnimals.get(0);
 //        System.out.println(effectiveAttribute);
 //        System.out.println(fightingAnimals);
         // Pour tous les animaux
-        for (Animal animal : fightingAnimals){
-            double animalAttribute = animal.getAttribute(effectiveAttribute);
-            double winnerAttribute = winner.getAttribute(effectiveAttribute);
+        for (Animal animal : this.fightingAnimals){
+            double animalAttribute = animal.getAttribute(this.effectiveAttribute);
+            double winnerAttribute = winner.getAttribute(this.effectiveAttribute);
 //            System.out.println(animalAttribute);
 //            System.out.println(winnerAttribute);
             // Si l'attribut de l'animal est supérieur
@@ -47,47 +58,24 @@ public class Fight {
             }
 
         }
-        return winner;
+        this.animalWinner = winner;
+        this.playerWinner = winner.getOwner();
     }
 
-    //    private static String askAttributeGUI (){
-//        final String[] userChoice = new String[1];
-//        JFrame frameAsk = new JFrame("Choix attriut");
-//
-//        JButton buttonPoids = new JButton("Poids");
-//        //Définir la position du bouton
-//        buttonPoids.setBounds(10,10,100,40);
-//
-//        buttonPoids.addActionListener(e -> userChoice[0] = "1");
-//
-//        JButton buttonLongueur = new JButton("Longueur");
-//        //Définir la position du bouton
-//        buttonLongueur.setBounds(10,60,100,40);
-//
-//        buttonLongueur.addActionListener(e -> userChoice[0] = "2");
-//
-//        JButton buttonLongevite = new JButton("Longévité");
-//        //Définir la position du bouton
-//        buttonLongevite.setBounds(10,110,100,40);
-//
-//        buttonLongevite.addActionListener(new ActionListener(){
-//            public void actionPerformed(ActionEvent e) {
-//                userChoice[0] = "3";}
-//            });
-//
-//        JButton buttonGestationIncubation = new JButton("Gestation/incubation");
-//        //Définir la position du bouton
-//        buttonGestationIncubation.setBounds(10,160,100,40);
-//
-//        buttonGestationIncubation.addActionListener(e -> userChoice[0] = "4");
-//        frameAsk.add(buttonGestationIncubation);
-//        frameAsk.add(buttonLongevite);
-//        frameAsk.add(buttonPoids);
-//        frameAsk.add(buttonLongueur);
-//        frameAsk.setSize(300,300);
-//        frameAsk.setLayout(null);
-//        frameAsk.setVisible(true);
-//        return userChoice[0];
-//    }
+    public int getEffectiveAttribute() {
+        return effectiveAttribute;
+    }
+
+    public List<Animal> getFightingAnimals() {
+        return fightingAnimals;
+    }
+
+    public Animal getAnimalWinner() {
+        return animalWinner;
+    }
+
+    public Player getPlayerWinner() {
+        return playerWinner;
+    }
 
 }

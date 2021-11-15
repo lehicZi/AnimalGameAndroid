@@ -1,8 +1,8 @@
 package com.animalgame.objects;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.net.Uri;
+
+import androidx.annotation.NonNull;
 
 import com.animalgame.objects.player.Player;
 
@@ -21,7 +21,7 @@ public class Animal{
     private final double longevite;
     private final double gestationIncubation;
     private final int rarete;
-//    private final Resources visual;
+    private final Uri visual;
     private Player owner;
 
     /**Constructeur de la classe
@@ -34,14 +34,14 @@ public class Animal{
      * @param rarete sa rareté
      */
 
-    public Animal(String nom, double poids, double longueur, double longevite, double gestation_incubation, int rarete) {
+    public Animal(String nom, double poids, double longueur, double longevite, double gestation_incubation, int rarete, int fichier) {
         this.nom = nom;
         this.poids = poids;
         this.longueur = longueur;
         this.longevite = longevite;
         this.gestationIncubation = gestation_incubation;
         this.rarete = rarete;
-//        this.visual = visual;
+        this.visual = Uri.parse("android.resource://com.animalgame/" + fichier);
     }
 
     /**Permet de récupérer la valeur d'un attribut en fonction d'un code
@@ -63,7 +63,7 @@ public class Animal{
             case 4 : {
                 return gestationIncubation;
             }
-            default : throw new IllegalStateException();
+            default : throw new IllegalStateException("L'attribut en paramètre n'est pas compris entre 1 et 4 !");
         }
     }
 
@@ -86,7 +86,7 @@ public class Animal{
             case 4 : {
                 return "gestion/incubation";
             }
-            default : throw new IllegalStateException();
+            default : throw new IllegalStateException("L'attribut en paramètre n'est pas compris entre 1 et 4 !");
         }
     }
 
@@ -119,6 +119,10 @@ public class Animal{
         return owner;
     }
 
+    public Uri getVisual() {
+        return visual;
+    }
+
     //Setter
     public void setOwner(Player owner) {
         this.owner = owner;
@@ -128,6 +132,7 @@ public class Animal{
      * @return le nom et les caractéristiques de l'animal
      */
 
+    @NonNull
     @Override
     public String toString(){
         return nom + " : poids = " + poids + " kg, longueur = " + longueur + " m, longévité = " + longevite + " ans, gestation/incubation = " + gestationIncubation + " jours." ;

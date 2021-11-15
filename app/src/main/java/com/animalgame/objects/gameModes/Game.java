@@ -1,5 +1,7 @@
 package com.animalgame.objects.gameModes;
 
+import android.app.Activity;
+
 import com.animalgame.AllAnimals;
 import com.animalgame.Utils;
 import com.animalgame.constant.Rarete;
@@ -31,6 +33,9 @@ public abstract class Game {
     protected PlayersList realPlayersList;
     protected final PlayersList AIPlayersList;
     protected final PlayersList playersList;
+    protected final List<Fight> history;
+    protected final List<AttributeSwitching> attributeHistory;
+    protected GameModes gameMode;
 
     /**
      * Constructeur de la classe.
@@ -48,6 +53,8 @@ public abstract class Game {
 
     public Game(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList) {
         AllAnimals cards = new AllAnimals();
+        this.history = new ArrayList<>();
+        this.attributeHistory = new ArrayList<>();
         this.numberPlayers = numberPlayers;
         this.numberRealPlayers = numberRealPlayers;
         listAllCards = cards.getAllAnimals();
@@ -59,15 +66,6 @@ public abstract class Game {
         createRealPlayersIntialDecks();
         createAIPlayersIntialDecks();
     }
-
-    public void setRealPlayersList (PlayersList realPlayersList){
-
-        this.realPlayersList = realPlayersList;
-
-    }
-
-
-
 
     /**Permet de créer la realPlayersList
      * Pour tous les joueurs humains, leur donne le nom en paramètre et un deck :
@@ -121,129 +119,77 @@ public abstract class Game {
         return deckDealt;
     }
 
-    /**Permet de définir quel Player commence au début de la partie en interagissant avec l'utilisateur.
-     * @return Le Player qui commence.
-     */
-
-    public Player defineStarter (){
-        Scanner scanner = new Scanner(System.in);
-        // On demande si le joueur qui commence est humain.
-        System.out.println("Who starts ? (1 : a real player, 2 : a bot)");
-        String userChoice = scanner.next();
-
-        while (!(Utils.isAnInt(userChoice))
-                || !Utils.isBetweenXAndY(Integer.parseInt(userChoice), 1, 2)){
-            // si l'utilisateur entre une valeur erronée (pas un int ou pas entre 1 et 4), relance le choix.
-            System.out.println("is it too hard to enter 1 or 2 ?");
-            userChoice = scanner.next();
-        }
-
-        int starterType = Integer.parseInt(userChoice);
-
-        if (starterType == 1){
-            // S'il n'y a qu'un seul joueur humain, il commence automatiquement
-            if (numberRealPlayers == 1){
-                return realPlayersList.getPlayer(0);
-            }
-            // Sinon, on demande son nom.
-            System.out.println("So who starts ? (Player's EXACT name)");
-            String starterName = scanner.next();
-            Player player;
-            while ((player = realPlayersList.containsPlayer(starterName)) == null){
-                System.out.println("Not a valid name.");
-                starterName = scanner.next();
-            }
-            return player;
-        }
-        else {
-            // S'il n'est pas humain, une "IA" aléatoire commence.
-            Random random = new Random();
-            return AIPlayersList.getPlayer(random.nextInt(numberPlayers - numberRealPlayers));
-        }
-
-    }
-
-    /** Définis la façon dont se déroule la partie, implémentées dans les classes filles
-     */
-    public abstract void playersFight ();
 
     /**Utilisée dans playersfight
      * Permet d'ajouter les animaux se trouvant à l'indice currentfight (manche actuelle) à la figtingAnimals.
      * Permet en parallèle de contruire l'annonce des animaux ajoutés.
      * @param currentFight indice auquel les animaux sont pris.
      * @param fightingAnimals liste des animaux à construire.
-     * @param annonce annonce à construire.
      */
 
-    public void addAnimalsAndBuildAnounce(int currentFight, List <Animal> fightingAnimals, StringBuilder annonce){
+    public void addAnimals(int currentFight, List <Animal> fightingAnimals){
 
         for (int playerIndex = 0; playerIndex < numberPlayers; playerIndex++) {
+
             Player currentPlayer = playersList.getPlayer(playerIndex);
             Animal currentAnimal = currentPlayer.getPlayersInitialDeck().getListCards().get(currentFight);
             fightingAnimals.add(currentAnimal);
-
-            if (playerIndex == numberPlayers - 1) {
-                annonce.append(currentPlayer).append("'s ").append(currentAnimal.getNom()).append(".");
-            } else {
-                annonce.append(currentPlayer).append("'s ").append(currentAnimal.getNom()).append(" VS ");
-            }
-
         }
     }
 
-    /**Utilisée dans playersfight
-     * Print les statistiques des animaux d'indice currentfight (manche actuelle) appartenant aux joueurs humains.
-     * @param currentFight indice auquel les animaux sont pris
-     */
 
-    protected void printAnimalStats(int currentFight){
-        for (Player player : realPlayersList.getallPlayers()){
-            System.out.println(player.getPlayersInitialDeck().getListCards().get(currentFight));
-        }
+    public abstract boolean isFinished();
+
+    public abstract void afterFightActions();
+
+    public abstract StringBuilder setSpecificGameModeIndication();
+
+    public void addFightToHistory(Fight fight){
+
+        this.history.add(fight);
+
     }
 
-    /**Utilisée dans playersfight
-     * Permet la mecanique de changement d'attribut au sein d'une manche
-     * @param currentFight indice d ela manche actuelle
-     * @param p premier joueur à jouer cette manche
-     * @param a animal du premier joueur à jouer
-     * @return le code de l'attribut effectif après que le changement soit fait, si aucun changement n'est fait,
-     * return -1.
-     */
+    public Fight getLastFight(){
 
-    protected int attributeSwitching(int currentFight, Player p, Animal a){
+        return history.get(history.size()-1);
 
-        Player starter = p;
-        Animal startersAnimal = a;
-        int codeEffectiveAttribute = -1;
+    }
 
-        //Pour tous les joueurs qui ne commencent pas
-        for (int notStarters = 1; notStarters < numberPlayers; notStarters ++ ){
+    public void addSwitchToHistory(AttributeSwitching attributeSwitching){
+        this.attributeHistory.add(attributeSwitching);
+    }
 
-            Player notStarter = playersList.getPlayer(notStarters);
-            Animal notStartersAnimal = notStarter.getPlayersInitialDeck().getListCards().get(currentFight);
-//                System.out.println(notStarter);
-            // Si la rareté de l'animal du joueur est supérieure à 0 (VERT)
-            if (notStartersAnimal.getRarete() > 0){
-                // Si le joueur décide de changer d'attribut
-                if (playersList.getPlayer(notStarters).switchAttributeProposal()){
-                    int tentativeCodeEffectiveAttribute = notStarter.attributeSwitch();
-                    // Si la rareté de l'animal du joueur est suffisante, c'est-à-dire strictement supérieure à celle
-                    // de l'animal du joueur qui le précède.
-                    if (notStartersAnimal.getRarete() > startersAnimal.getRarete()){
-                        starter = notStarter;
-                        startersAnimal = notStartersAnimal;
-                        codeEffectiveAttribute = tentativeCodeEffectiveAttribute;
-                        System.out.println(notStarter + " changed the effective attribute and chose " + notStartersAnimal.getAttributesName(codeEffectiveAttribute));
-                    }
-                    else {
-                        System.out.println("Sorry  " + notStarter + ", you can't change the effective attribute because your " + notStartersAnimal.getNom() +"'s rareté is " + Rarete.nameRarete(notStartersAnimal.getRarete()) + " while " + starter + "'s " + startersAnimal.getNom() +"'s rareté is " + Rarete.nameRarete(startersAnimal.getRarete()));
-                    }
-                }
+    public AttributeSwitching getLastSwitch(){
+
+        return this.attributeHistory.get(this.attributeHistory.size()-1);
+
+    }
+
+    public AttributeSwitching getPenultimateSwitch(){
+
+        return this.attributeHistory.get(this.attributeHistory.size()-2);
+
+    }
+
+    public AttributeSwitching getPlayersSwitch (Player switcher){
+        for (int reverseIndex = this.attributeHistory.size()-1; reverseIndex >= 0; reverseIndex --){
+            if (this.attributeHistory.get(reverseIndex).getSwitcher().equals(switcher)){
+                return this.attributeHistory.get(reverseIndex);
             }
 
         }
-        return codeEffectiveAttribute;
+        throw new IllegalStateException("Il n'y a pas de joueur ayant effectué de switch dans l'historique");
+    }
+
+    public AttributeSwitching getLastEffectiveSwitch(){
+
+        for (int reverseIndex = this.attributeHistory.size()-1; reverseIndex >= 0; reverseIndex --){
+            if (this.attributeHistory.get(reverseIndex).isTheEffective()){
+                return this.attributeHistory.get(reverseIndex);
+            }
+        }
+        throw new IllegalStateException("Il n'y a pas d'attribut effectif dans l'historique !");
     }
 
     /**trouve le gagnant d'une liste de joueurs en cherchant celui qui a le plus de victoires.
@@ -251,17 +197,40 @@ public abstract class Game {
      * @return Le Player gagnant
      */
 
-    public Player findFinalWinner(){
+    public List <Player> findFinalWinner(){
+
+        List <Player> winners = new ArrayList<>();
+
         Player finalWinner = playersList.getPlayer(0);
+
+        winners.add(finalWinner);
+
         for (Player player : playersList.getallPlayers()) {
-            if (player.getVictories() > finalWinner.getVictories()) {
-                finalWinner = player;
+            if (player.getVictories() > winners.get(0).getVictories()) {
+                winners.clear();
+                winners.add(player);
+            }
+            else if (player.getVictories() == winners.get(0).getVictories()){
+                if (!(player.equals(winners.get(0)))) {
+                    winners.add(player);
+                }
             }
         }
-        return finalWinner;
+        return winners;
+    }
+
+    public int getCurrentFightIndex(){
+
+        return history.size();
     }
 
     // Getters
+
+
+    public int getNumberPlayers() {
+        return numberPlayers;
+    }
+
     public int getNumberCardsPerplayer() {
         return numberCardsPerplayer;
     }
@@ -276,5 +245,17 @@ public abstract class Game {
 
     public PlayersList getRealPlayersList() {
         return realPlayersList;
+    }
+
+    public GameModes getGameMode() {
+        return gameMode;
+    }
+
+    public List<Fight> getHistory() {
+        return history;
+    }
+
+    public List<AttributeSwitching> getAttributeHistory() {
+        return attributeHistory;
     }
 }

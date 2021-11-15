@@ -1,9 +1,12 @@
 package com.animalgame.objects.player;
+import android.app.Activity;
+
 import androidx.annotation.NonNull;
 
 import com.animalgame.objects.Deck;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class Player {
     /** Classe abstraite permettant de définir ce qu'est un joueur.
@@ -18,6 +21,7 @@ public abstract class Player {
     private Deck playersWinnedCards;
     private int victories = 0;
     private int order;
+    protected boolean isReal;
 
     /** Constructeur de la classe
      * Initialise les attributs aux paramètres donnés.
@@ -83,6 +87,10 @@ public abstract class Player {
 
     public int getOrder() {
         return order;
+    }
+
+    public boolean isReal() {
+        return isReal;
     }
 
     //Setter
