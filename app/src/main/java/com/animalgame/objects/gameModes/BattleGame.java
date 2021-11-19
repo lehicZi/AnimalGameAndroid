@@ -96,6 +96,11 @@ public class BattleGame extends Game{
 
     }
 
+    @Override
+    public String toString(){
+        return "mode bataille";
+    }
+
 
 
 

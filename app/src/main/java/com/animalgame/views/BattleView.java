@@ -53,6 +53,8 @@ public class BattleView extends AppCompatActivity {
         checkWhoStarts();
         setListeners();
 
+        setTitle("jeu : " + this.game.toString());
+
 
     }
 

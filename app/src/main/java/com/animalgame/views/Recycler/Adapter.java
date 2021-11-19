@@ -24,7 +24,7 @@ public class Adapter extends RecyclerView.Adapter<ViewholderForRecycler> {
     @NonNull
     @Override
     public ViewholderForRecycler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewholderForRecycler(LayoutInflater.from(context).inflate(R.layout.items_for_recycler, parent, false));
+        return new ViewholderForRecycler(LayoutInflater.from(context).inflate(R.layout.items_for_after_choice_recycler, parent, false));
     }
 
     @Override

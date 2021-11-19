@@ -21,6 +21,8 @@
         <activity android:name=".views.BattleView"/>
         <activity android:name=".views.AfterPlayerChoice"/>
         <activity android:name=".views.VictoryScreen"/>
+        <activity android:name=".views.animalsList.AnimalsListView"/>
+        <activity android:name=".views.animalsList.AnimalView"/>
 
 
     </application>

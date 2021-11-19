@@ -3,6 +3,7 @@ package com.animalgame.objects.gameModes;
 import android.app.Activity;
 
 import com.animalgame.AllAnimals;
+import com.animalgame.DataShared;
 import com.animalgame.Utils;
 import com.animalgame.constant.Rarete;
 import com.animalgame.objects.Animal;
@@ -52,12 +53,11 @@ public abstract class Game {
      */
 
     public Game(int numberPlayers, int numberRealPlayers, PlayersList realPlayersList, PlayersList AIPlayersList, PlayersList playersList) {
-        AllAnimals cards = new AllAnimals();
         this.history = new ArrayList<>();
         this.attributeHistory = new ArrayList<>();
         this.numberPlayers = numberPlayers;
         this.numberRealPlayers = numberRealPlayers;
-        listAllCards = cards.getAllAnimals();
+        CreateUsedAnimalsList();
         numberCardsFree = listAllCards.size();
         numberCardsPerplayer = numberCardsFree / numberPlayers;
         this.playersList = playersList;
@@ -72,6 +72,24 @@ public abstract class Game {
      * un deck initial, grâce à la méthode deal().
      * Pour tous les animaux du deck initial, indique que le propriétaire est le joueur possédant le deck.
      */
+
+
+    private void CreateUsedAnimalsList(){
+
+        listAllCards = new ArrayList<>();
+        List<Animal> allAnimals = DataShared.getInstance().getAllAnimals();
+
+        for (Animal animal : allAnimals){
+            if (animal.isUsed()){
+                this.listAllCards.add(animal);
+            }
+        }
+
+        if (this.listAllCards.size()==0){
+            throw new IllegalArgumentException("Il n'y a aucun Animal utilisé !");
+        }
+
+    }
 
     public void createRealPlayersIntialDecks() {
         Deck initialDeck;

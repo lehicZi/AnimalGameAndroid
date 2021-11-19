@@ -1,12 +1,17 @@
 package com.animalgame;
 
+import com.animalgame.objects.Animal;
 import com.animalgame.objects.gameModes.Game;
+
+import java.util.List;
 
 public class DataShared {
 
     private static DataShared dataShared;
 
     private Game game;
+
+    private List<Animal> allAnimals;
 
     private DataShared() {
 
@@ -24,6 +29,14 @@ public class DataShared {
 
     public Game getGame() {
         return game;
+    }
+
+    public void setAllAnimals(List<Animal> allAnimals) {
+        this.allAnimals = allAnimals;
+    }
+
+    public List<Animal> getAllAnimals() {
+        return allAnimals;
     }
 
     public void setNewGame(Game game){

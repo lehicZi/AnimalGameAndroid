@@ -48,6 +48,8 @@ public class AfterPlayerChoice extends AppCompatActivity {
 
         setListeners();
 
+        setTitle("jeu : " + this.currentGame.toString());
+
     }
 
     private void instanciateView(){

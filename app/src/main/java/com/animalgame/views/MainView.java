@@ -1,9 +1,12 @@
 package com.animalgame.views;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,10 +20,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.animalgame.AllAnimals;
+import com.animalgame.DataBase;
 import com.animalgame.DataShared;
 import com.animalgame.R;
 import com.animalgame.Utils;
 import com.animalgame.editTextManagement.EditTextGenerator;
+import com.animalgame.objects.Animal;
 import com.animalgame.objects.gameModes.BattleGame;
 import com.animalgame.objects.gameModes.Game;
 import com.animalgame.objects.gameModes.OneDeckGame;
@@ -28,6 +34,7 @@ import com.animalgame.objects.player.AIPlayer;
 import com.animalgame.objects.player.Player;
 import com.animalgame.objects.player.PlayersList;
 import com.animalgame.objects.player.RealPlayer;
+import com.animalgame.views.animalsList.AnimalsListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,19 +58,21 @@ public class MainView extends AppCompatActivity {
     private TextView whoRealTV;
     private Spinner realStarterS;
 
-    private Game game = DataShared.getInstance().getGame();
     private PlayersList realPlayers;
     private PlayersList AIPlayers;
     private Player starter;
 
     private EditTextGenerator editTextGenerator;
 
+
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.setContentView(R.layout.main_view);
+        this.setTitle("Jeu");
 
         instanciateView();
+        initiateData();
 
         setListeners();
     }
@@ -86,6 +95,16 @@ public class MainView extends AppCompatActivity {
         this.editTextGenerator = new EditTextGenerator(this, playersNamesSV);
         this.realPlayers = new PlayersList();
         this.AIPlayers = new PlayersList();
+
+    }
+
+    private void initiateData(){
+
+        AllAnimals allAnimals = new AllAnimals();
+
+        DataBase.initialInsert(this, allAnimals.getAllAnimals());
+        DataShared.getInstance().setAllAnimals(DataBase.getAllAnimals(this));
+
     }
 
     private void setListeners() {
@@ -149,6 +168,9 @@ public class MainView extends AppCompatActivity {
                 catch (IllegalStateException e){
                     Utils.showMessage("Erreur", "Un joueur n'a pas de nom !", thisContext);
                 }
+                catch (IllegalArgumentException e){
+                    Utils.showMessage("Erreur", "Aucun animal n'est utilisé !", thisContext);
+                }
 
 
             }
@@ -181,6 +203,9 @@ public class MainView extends AppCompatActivity {
                 }
                 catch (IllegalStateException e){
                     Utils.showMessage("Erreur", "Un joueur n'a pas de nom !", thisContext);
+                }
+                catch (IllegalArgumentException e){
+                    Utils.showMessage("Erreur", "Aucun animal n'est utilisé !", thisContext);
                 }
 
 
@@ -232,6 +257,32 @@ public class MainView extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        final int item_id = item.getItemId();
+
+        if (item_id == R.id.settings){
+
+            final Intent intent = new Intent (this, AnimalsListView.class);
+            this.startActivity(intent);
+
+        }
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void setNumberPlayersSpinnerValue() {
         List<String> propositions = new ArrayList<>();

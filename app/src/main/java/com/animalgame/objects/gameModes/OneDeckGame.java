@@ -35,6 +35,11 @@ public class OneDeckGame extends Game{
 
     }
 
+    @Override
+    public String toString(){
+        return "mode rapide";
+    }
+
 
 
 }

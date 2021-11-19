@@ -35,6 +35,8 @@ public class VictoryScreen extends AppCompatActivity {
         setListeners();
 
         setIndications();
+
+        setTitle("Fin de partie");
     }
 
     private void instanciateView(){

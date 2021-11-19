@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.animalgame.objects.Animal;
 import com.animalgame.constant.Rarete;
+import com.animalgame.views.MainView;
 
 public class AllAnimals {
 
@@ -22,14 +23,18 @@ public class AllAnimals {
 
     public AllAnimals() {
         this.allAnimals = new ArrayList<>();
+
         instanciateAnimals();
+
     }
 
     /** Permet de créer la liste allAnimals, tous les animaux présents en jeu sont à instancier ici dans un premier temps,
      * puis à ajouter à la liste.
      */
 
-    public void instanciateAnimals() {
+    private void instanciateAnimals() {
+
+
         // On instancie les animaux.
         Animal meduseLion = new Animal("Méduse Lion", 600d, 125d, 1d, 10d, Rarete.VERT, R.raw.meduse_lion);
         Animal geckoFoliace = new Animal("Gecko Foliacé", 0.03d, 8d, 6d, 73d, Rarete.JAUNE, R.raw.gecko_foliace );
@@ -48,7 +53,10 @@ public class AllAnimals {
         allAnimals.add(okapi);
     }
 
+
+
     // Getter
+
 
     public List<Animal> getAllAnimals() {
         return allAnimals;

@@ -21,8 +21,10 @@ public class Animal{
     private final double longevite;
     private final double gestationIncubation;
     private final int rarete;
+    private int fichier;
     private final Uri visual;
     private Player owner;
+    private boolean isUsed;
 
     /**Constructeur de la classe
      * Créé l'animal en fonction avec les caractéristiques données en paramètre.
@@ -41,7 +43,9 @@ public class Animal{
         this.longevite = longevite;
         this.gestationIncubation = gestation_incubation;
         this.rarete = rarete;
+        this.fichier = fichier;
         this.visual = Uri.parse("android.resource://com.animalgame/" + fichier);
+        isUsed = true;
     }
 
     /**Permet de récupérer la valeur d'un attribut en fonction d'un code
@@ -119,13 +123,25 @@ public class Animal{
         return owner;
     }
 
+    public int getFichier() {
+        return fichier;
+    }
+
     public Uri getVisual() {
         return visual;
+    }
+
+    public boolean isUsed() {
+        return isUsed;
     }
 
     //Setter
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    public void setUsed(boolean used) {
+        isUsed = used;
     }
 
     /**Redéfinission de toString()
@@ -135,7 +151,7 @@ public class Animal{
     @NonNull
     @Override
     public String toString(){
-        return nom + " : poids = " + poids + " kg, longueur = " + longueur + " m, longévité = " + longevite + " ans, gestation/incubation = " + gestationIncubation + " jours." ;
+        return nom;
     }
 
 }

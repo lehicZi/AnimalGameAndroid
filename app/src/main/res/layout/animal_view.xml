@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/isItUsedSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Animal utilisé "
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/vertical_15"
+        app:layout_constraintTop_toTopOf="@+id/horizontal_6"
+        />
+
+    <ImageView
+        android:id="@+id/animalVisualForView"
+        android:textSize="15dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/axolotl"
+        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintStart_toStartOf="@+id/vertical_5"
+        app:layout_constraintBottom_toBottomOf="@+id/horizontal_95"/>
+
+
+    <!-- Guidelines horizontales -->
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.06"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95"
+        />
+
+
+    <!-- Guidelines verticales -->
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_75"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

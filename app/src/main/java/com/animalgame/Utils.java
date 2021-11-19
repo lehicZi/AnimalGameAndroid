@@ -62,4 +62,16 @@ public class Utils {
         builder.setMessage(message);
         builder.show();
     }
+
+    public static String getStringForDb (String s){
+
+        return s.replace(" ","_");
+
+    }
+
+    public static String getStringFromDb (String s){
+
+        return s.replace("_"," ");
+
+    }
 }
