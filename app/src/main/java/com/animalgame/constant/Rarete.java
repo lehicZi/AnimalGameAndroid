@@ -1,6 +1,6 @@
 package com.animalgame.constant;
 
-public class Rarete {
+public class  Rarete {
     /**Classe utilitaire permettant de stocker les valeurs possibles des raretés
      */
 

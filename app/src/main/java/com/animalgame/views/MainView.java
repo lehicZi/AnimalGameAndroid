@@ -100,10 +100,11 @@ public class MainView extends AppCompatActivity {
 
     private void initiateData(){
 
-        AllAnimals allAnimals = new AllAnimals();
+        List<Animal> allAnimals = DataShared.getInstance().getAllAnimals();
 
-        DataBase.initialInsert(this, allAnimals.getAllAnimals());
-        DataShared.getInstance().setAllAnimals(DataBase.getAllAnimals(this));
+        DataBase.initialInsert(this, allAnimals);
+
+        DataBase.updateAnimalList(this, allAnimals);
 
     }
 
@@ -277,7 +278,6 @@ public class MainView extends AppCompatActivity {
             this.startActivity(intent);
 
         }
-
 
 
         return super.onOptionsItemSelected(item);

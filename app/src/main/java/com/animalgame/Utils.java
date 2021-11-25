@@ -5,7 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 
+
 import com.animalgame.objects.player.Player;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Comparator;
 
@@ -45,12 +48,16 @@ public class Utils {
         return (choice >= X) && (choice <= Y);
     }
 
-    /**Comparateur utilisé pour ordonner la playersList
-     */
+    public static boolean stringContainsString(final String s1,
+                                               final String s2)
+    {
+        final String s1Comparable = StringUtils.stripAccents(s1).toLowerCase();
+        final String s2Comparable = StringUtils.stripAccents(s2).toLowerCase();
 
-    public static Comparator<Player> playerComparator(){
-        return Comparator.comparingInt(Player::getOrder);
+        return s1Comparable.contains(s2Comparable);
     }
+
+
 
     public static void showMessage(final String titre,
                                    final String message,
@@ -63,15 +70,12 @@ public class Utils {
         builder.show();
     }
 
-    public static String getStringForDb (String s){
-
-        return s.replace(" ","_");
-
-    }
-
-    public static String getStringFromDb (String s){
-
-        return s.replace("_"," ");
+    public static void reloadView(Activity activity, Class<?> classToReload){
+        Intent i = new Intent(activity, classToReload);
+        activity.finish();
+        activity.overridePendingTransition(0, 0);
+        activity.startActivity(i);
+        activity.overridePendingTransition(0, 0);
 
     }
 }

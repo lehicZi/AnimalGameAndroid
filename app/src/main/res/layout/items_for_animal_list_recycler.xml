@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/recyclerLayout"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/animalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/usedSwitch"
+            android:layout_marginStart="5dp"
+            android:text="Animal name"
+            android:textColor="#D3D3D3"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/animalRarete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/usedSwitch"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/animalName"
+            android:text="Animal's rarete"
+            android:textColor="#D3D3D3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/animalPoids"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/usedSwitch"
+            android:layout_marginStart="5dp"
+            android:text="Animal's poids"
+            android:textColor="#D3D3D3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/animalLongueur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/usedSwitch"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="5dp"
+            android:text="Animal's longueur"
+            android:textColor="#D3D3D3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/animalLongevite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/animalPoids"
+            android:layout_marginStart="5dp"
+            android:text="Animal's longevite"
+            android:textColor="#D3D3D3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/animalGestation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/animalLongueur"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentRight="true"
+            android:text="Animal's Gestation/incubation"
+            android:textColor="#D3D3D3"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/usedSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="used or not"
+            android:textColor="#d3d3d3"
+            android:textSize="20sp" />
+
+
+
+
+
+</RelativeLayout>

@@ -11,6 +11,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.animalgame.DataBase;
 import com.animalgame.DataShared;
 import com.animalgame.R;
+import com.animalgame.Utils;
 import com.animalgame.objects.Animal;
 
 public class AnimalView extends AppCompatActivity {
@@ -42,6 +43,11 @@ public class AnimalView extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed(){
+        Utils.openOtherActivity(AnimalsListView.class, this);
+    }
+
     private void setDefaultSwitch(){
 
         if (selectedAnimal.isUsed()){
@@ -65,12 +71,7 @@ public class AnimalView extends AppCompatActivity {
 
                     isItUsed.setText("Animal utilisé ");
                     selectedAnimal.setUsed(true);
-                    if (DataBase.updateUse(AnimalView.this, selectedAnimal, true)){
-                        Toast.makeText(AnimalView.this, "Db updated", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(AnimalView.this, "Db not updated", Toast.LENGTH_SHORT).show();
-                    }
+
 
                 }
 
@@ -78,14 +79,9 @@ public class AnimalView extends AppCompatActivity {
 
                     isItUsed.setText("Animal non utilisé ");
                     selectedAnimal.setUsed(false);
-                    if (DataBase.updateUse(AnimalView.this, selectedAnimal, true)){
-                        Toast.makeText(AnimalView.this, "Db updated", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(AnimalView.this, "Db not updated", Toast.LENGTH_SHORT).show();
-                    }
 
                 }
+                DataBase.updateUse(AnimalView.this, selectedAnimal);
 
             }
         });

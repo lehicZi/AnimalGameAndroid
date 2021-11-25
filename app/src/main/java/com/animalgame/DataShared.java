@@ -15,6 +15,9 @@ public class DataShared {
 
     private DataShared() {
 
+        AllAnimals animals = new AllAnimals();
+        this.allAnimals = animals.getAllAnimals();
+
     }
 
     public static DataShared getInstance()

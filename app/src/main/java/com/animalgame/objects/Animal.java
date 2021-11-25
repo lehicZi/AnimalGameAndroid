@@ -154,4 +154,19 @@ public class Animal{
         return nom;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof String) && !(o instanceof Animal) ){
+            return false;
+        }
+        else if (o instanceof Animal)
+        {
+            return this.getNom().equals(((Animal) o).getNom());
+        }
+        else
+        {
+            return this.getNom().equals(o);
+        }
+    }
+
 }

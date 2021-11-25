@@ -20,30 +20,18 @@ public class DataBase extends SQLiteOpenHelper {
 
     public static final String ANIMAL_TABLE = "ANIMAL_TABLE";
     public static final String COLUMN_NOM = "NOM";
-    public static final String COLUMN_POIDS = "POIDS";
-    public static final String COLUMN_LONGUEUR = "LONGUEUR";
-    public static final String COLUMN_LONGEVITE = "LONGEVITE";
-    public static final String COLUMN_GESTATION_INCUBATION = "GESTATION_INCUBATION";
-    public static final String COLUMN_RARETE = "RARETE";
     public static final String COLUMN_ISUSED = "ISUSED";
-    public static final String COLUMN_FCHIER = "FCHIER";
+
 
     public DataBase(@Nullable Context context) {
-        super(context, "animals.db", null, 1);
+        super(context, "animals.db", null, 2);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE " + ANIMAL_TABLE +
                 " (" + COLUMN_NOM + " TEXT PRIMARY KEY," +
-                " " + COLUMN_POIDS + " TEXT," +
-                " " + COLUMN_LONGUEUR + " TEXT," +
-                " " + COLUMN_LONGEVITE + " TEXT," +
-                " " + COLUMN_GESTATION_INCUBATION + " TEXT," +
-                " " + COLUMN_RARETE + " INTEGER," +
-                " " + COLUMN_ISUSED + " BOOL," +
-                " " + COLUMN_FCHIER + " INTEGER)";
-
+                " " + COLUMN_ISUSED + " BOOL NOT NULL)";
         db.execSQL(createTableStatement);
 
 
@@ -51,6 +39,9 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        db.execSQL("DROP TABLE IF EXISTS " + ANIMAL_TABLE);
+        onCreate(db);
 
     }
 
@@ -60,19 +51,14 @@ public class DataBase extends SQLiteOpenHelper {
         final SQLiteDatabase database = new DataBase(activity).getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(COLUMN_NOM, Utils.getStringForDb(animal.getNom()));
-        contentValues.put(COLUMN_POIDS, animal.getPoids());
-        contentValues.put(COLUMN_LONGUEUR, animal.getLongueur());
-        contentValues.put(COLUMN_LONGEVITE, animal.getLongevite());
-        contentValues.put(COLUMN_GESTATION_INCUBATION, animal.getGestationIncubation());
-        contentValues.put(COLUMN_RARETE, animal.getRarete());
+        contentValues.put(COLUMN_NOM, animal.getNom());
         contentValues.put(COLUMN_ISUSED, animal.isUsed());
-        contentValues.put(COLUMN_FCHIER, animal.getFichier());
+
 
         long insert = database.insert(ANIMAL_TABLE, null, contentValues);
 
         database.close();
-        return insert >= 0;
+        return insert != -1;
 
     }
 
@@ -80,8 +66,9 @@ public class DataBase extends SQLiteOpenHelper {
 
         final SQLiteDatabase database = new DataBase(activity).getReadableDatabase();
 
-        String query = "SELECT " + COLUMN_NOM + " FROM " + ANIMAL_TABLE + " WHERE " + COLUMN_NOM + " LIKE " + "'" + Utils.getStringForDb(animal.getNom()) + "'";
-        Cursor cursor = database.rawQuery(query, null);
+        String query = "SELECT " + COLUMN_NOM + " FROM " + ANIMAL_TABLE + " WHERE " + COLUMN_NOM + " =?";
+        String[] arg = {animal.getNom()};
+        Cursor cursor = database.rawQuery(query, arg);
 
         boolean isNotEmpty = cursor.moveToFirst();
 
@@ -107,52 +94,53 @@ public class DataBase extends SQLiteOpenHelper {
 
     }
 
-    public static List<Animal> getAllAnimals(Activity activity){
+    private static Animal getFromName(String name, List<Animal> animalList){
 
-        List<Animal> returnList = new ArrayList<>();
+        for (Animal animal : animalList){
+
+            if (animal.getNom().equals(name)){
+                return  animal;
+            }
+
+        }
+
+        throw new IllegalStateException("Il n'y pas l'animal recherché dans la liste !");
+
+    }
+
+    public static void updateAnimalList(Activity activity, List<Animal> animalList){
 
         String query = "SELECT * FROM " + ANIMAL_TABLE;
         final SQLiteDatabase database = new DataBase(activity).getReadableDatabase();
 
         Cursor cursor = database.rawQuery(query, null);
 
-        if (cursor.moveToFirst()){
+        while (cursor.moveToNext())
+        {
 
-            do {
-                String nom = Utils.getStringFromDb(cursor.getString(0));
-                double poids = cursor.getDouble(1);
-                double longueur = cursor.getDouble(2);
-                double longevite = cursor.getDouble(3);
-                double gestation = cursor.getDouble(4);
-                int rarete = cursor.getInt(5);
-                boolean isused = cursor.getInt(6) == 1;
-                int fichier = cursor.getInt(7);
+            String nom = cursor.getString(0);
+            boolean isused = cursor.getInt(1) == 1;
 
-                Animal animal = new Animal(nom, poids, longueur, longevite, gestation, rarete, fichier);
-                animal.setUsed(isused);
-                returnList.add(animal);
-
-            } while (cursor.moveToNext());
-
+            Animal currentAnimal = getFromName(nom, animalList);
+            currentAnimal.setUsed(isused);
 
         }
         cursor.close();
         database.close();
 
-        return returnList;
 
     }
 
-    public static boolean updateUse(Activity activity,Animal animal, boolean used){
+    public static boolean updateUse(Activity activity,Animal animal){
 
         final SQLiteDatabase database = new DataBase(activity).getWritableDatabase();
 
 
         final String where = COLUMN_NOM + "=?";
-        final String[] whereArgs = {Utils.getStringForDb(animal.getNom())};
+        final String[] whereArgs = {animal.getNom()};
         final ContentValues contentValues = new ContentValues();
 
-        contentValues.put(COLUMN_ISUSED, used);
+        contentValues.put(COLUMN_ISUSED, animal.isUsed());
 
         final boolean updated = database.update(ANIMAL_TABLE, contentValues, where, whereArgs) != -1;
 

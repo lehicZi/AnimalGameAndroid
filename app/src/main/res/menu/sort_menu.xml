@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="Rechercher"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/tri_alphabetique"
+        android:title="Trier par ordre alphabétique"/>
+
+    <item
+        android:id="@+id/tri_use"
+        android:title="Trier par utilisation"/>
+
+    <item
+        android:id="@+id/tri_rarete"
+        android:title="Trier par rareté"/>
+
+    <item
+        android:id="@+id/tri_poids"
+        android:title="Trier par poids"/>
+
+    <item
+        android:id="@+id/tri_longueur"
+        android:title="Trier par longueur"/>
+    <item
+        android:id="@+id/tri_longevite"
+        android:title="Trier par longévité"/>
+
+    <item
+        android:id="@+id/tri_gestation"
+        android:title="Trier par gestation/incubation"/>
+
+
+</menu>

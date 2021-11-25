@@ -1,5 +1,6 @@
 package com.animalgame.objects.player;
 
+import com.animalgame.Comparators;
 import com.animalgame.Utils;
 
 import java.util.ArrayList;
@@ -87,7 +88,7 @@ public class PlayersList {
      */
 
     public void orderPlayersList(){
-        playersList.sort(Utils.playerComparator());
+        playersList.sort(Comparators.playerComparator());
     }
 
     @Override
