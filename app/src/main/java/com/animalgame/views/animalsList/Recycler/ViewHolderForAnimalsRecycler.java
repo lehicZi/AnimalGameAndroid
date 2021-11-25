@@ -1,5 +1,6 @@
 package com.animalgame.views.animalsList.Recycler;
 
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,7 +18,8 @@ import com.animalgame.R;
 public class ViewHolderForAnimalsRecycler extends RecyclerView.ViewHolder {
 
     Switch useS;
-    TextView animalsNom, animalsRarete, animalsPoids, animalsLongueur, animalsLongevite, animalsGestation;
+    TextView animalsNom, animalsPoids, animalsLongueur, animalsLongevite, animalsGestation;
+    ImageView animalsRarete;
     RelativeLayout itemLayout;
 
 

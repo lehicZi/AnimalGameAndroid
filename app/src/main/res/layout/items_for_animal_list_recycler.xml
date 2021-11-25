@@ -17,16 +17,14 @@
             android:textColor="#D3D3D3"
             android:textSize="20sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/animalRarete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/usedSwitch"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/animalName"
-            android:text="Animal's rarete"
-            android:textColor="#D3D3D3"
-            android:textSize="15sp" />
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_toEndOf="@+id/animalName"
+            android:layout_alignBottom="@+id/animalName"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/rarete_jaune" />
 
         <TextView
             android:id="@+id/animalPoids"

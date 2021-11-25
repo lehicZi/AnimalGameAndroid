@@ -201,7 +201,7 @@ public class AnimalsListView extends AppCompatActivity {
 
             AnimalsRecyclerItems animalInfos = new AnimalsRecyclerItems(
                     animal.getNom(),
-                    "Rareté : " + Rarete.nameRarete(animal.getRarete()),
+                    Rarete.getRareteVisual(animal),
                     "Poids : " + animal.getPoids() + " kg",
                     "Longueur : " + animal.getLongueur() + " cm",
                     "Longévité : " + animal.getLongevite() + " ans",

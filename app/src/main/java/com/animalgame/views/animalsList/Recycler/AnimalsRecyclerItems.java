@@ -1,14 +1,17 @@
 package com.animalgame.views.animalsList.Recycler;
 
+import android.net.Uri;
+
 import com.animalgame.objects.Animal;
 
 public class AnimalsRecyclerItems {
 
-    String animalsNom, animalsRarete, animalsPoids, animalsLongueur, animalsLongevite, animalsGestation;
+    String animalsNom, animalsPoids, animalsLongueur, animalsLongevite, animalsGestation;
+    Uri animalsRarete;
     boolean used;
     Animal animal;
 
-    public AnimalsRecyclerItems(String animalsNom, String animalsRarete, String animalsPoids, String animalsLongueur, String animalsLongevite, String animalsGestation, boolean used, Animal animal) {
+    public AnimalsRecyclerItems(String animalsNom, Uri animalsRarete, String animalsPoids, String animalsLongueur, String animalsLongevite, String animalsGestation, boolean used, Animal animal) {
         this.animalsNom = animalsNom;
         this.animalsRarete = animalsRarete;
         this.animalsPoids = animalsPoids;
@@ -27,11 +30,11 @@ public class AnimalsRecyclerItems {
         this.animalsNom = animalsNom;
     }
 
-    public String getAnimalsRarete() {
+    public Uri getAnimalsRarete() {
         return animalsRarete;
     }
 
-    public void setAnimalsRarete(String animalsRarete) {
+    public void setAnimalsRarete(Uri animalsRarete) {
         this.animalsRarete = animalsRarete;
     }
 

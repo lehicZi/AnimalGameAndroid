@@ -51,7 +51,7 @@ public class AnimalsAdapter extends RecyclerView.Adapter<ViewHolderForAnimalsRec
         setDefault(holder);
 
         holder.animalsNom.setText(items.get(position).getAnimalsNom());
-        holder.animalsRarete.setText(items.get(position).getAnimalsRarete());
+        holder.animalsRarete.setImageURI(items.get(position).getAnimalsRarete());
         holder.animalsPoids.setText(items.get(position).getAnimalsPoids());
         holder.animalsLongueur.setText(items.get(position).getAnimalsLongueur());
         holder.animalsLongevite.setText(items.get(position).getAnimalsLongevite());
