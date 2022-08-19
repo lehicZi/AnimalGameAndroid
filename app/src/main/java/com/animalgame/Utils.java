@@ -48,6 +48,12 @@ public class Utils {
         return (choice >= X) && (choice <= Y);
     }
 
+    /**Vérie si un string est dans un autre (utile pour la recherche)
+     * @param s1 le string censé contenir s2
+     * @param s2 le string censé être dans s1
+     * @return
+     */
+
     public static boolean stringContainsString(final String s1,
                                                final String s2)
     {
@@ -56,6 +62,7 @@ public class Utils {
 
         return s1Comparable.contains(s2Comparable);
     }
+
 
 
 

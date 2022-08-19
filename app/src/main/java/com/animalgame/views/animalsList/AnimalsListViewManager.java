@@ -7,6 +7,7 @@ import com.animalgame.objects.Animal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class AnimalsListViewManager {
 
@@ -20,11 +21,19 @@ public class AnimalsListViewManager {
         sortBy(AnimalsListSingleton.getInstance().getSortMod());
     }
 
+    TreeSet<String> tree = new TreeSet<>();
+
+
+
 
 
     private void sortAlphabetically(){
 
         this.animalListToShow.sort(Comparators.animalComparatorName());
+
+        for (Animal znz : animalList){
+
+        }
 
 
     }

@@ -14,6 +14,9 @@ public class Comparators {
         return Comparator.comparingInt(Player::getOrder);
     }
 
+    /**Comparateurs utilisés pour ordonner les annimaux
+     */
+
     public static Comparator<Animal> animalComparatorName(){
         return Comparator.comparing(Animal::getNom);
     }

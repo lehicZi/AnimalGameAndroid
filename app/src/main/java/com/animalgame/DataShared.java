@@ -7,6 +7,10 @@ import java.util.List;
 
 public class DataShared {
 
+    /**Données partagées entre les vues
+     *
+     */
+
     private static DataShared dataShared;
 
     private Game game;
@@ -34,10 +38,6 @@ public class DataShared {
         return game;
     }
 
-    public void setAllAnimals(List<Animal> allAnimals) {
-        this.allAnimals = allAnimals;
-    }
-
     public List<Animal> getAllAnimals() {
         return allAnimals;
     }
@@ -47,7 +47,4 @@ public class DataShared {
     }
 
 
-    public void resetGame (){
-        this.game = null;
-    }
 }

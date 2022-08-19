@@ -17,6 +17,10 @@ import java.util.List;
 
 public class DataBase extends SQLiteOpenHelper {
 
+    /**Classe utilisée pour gérer la base de donnée stockant les cartes, et permettant d'en activer/désactiver
+
+     */
+
 
     public static final String ANIMAL_TABLE = "ANIMAL_TABLE";
     public static final String COLUMN_NOM = "NOM";
@@ -44,6 +48,7 @@ public class DataBase extends SQLiteOpenHelper {
         onCreate(db);
 
     }
+
 
 
     private static boolean addEntry(Activity activity, Animal animal){

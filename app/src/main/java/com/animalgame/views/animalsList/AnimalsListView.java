@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.animalgame.DataBase;
 import com.animalgame.R;
 import com.animalgame.Utils;
 import com.animalgame.constant.Rarete;
@@ -29,8 +32,9 @@ import java.util.List;
 public class AnimalsListView extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-
     private AnimalsAdapter adapter;
+
+    private Button useAll,useNone;
 
     private List<AnimalsRecyclerItems> recyclerItemsList;
 
@@ -44,6 +48,7 @@ public class AnimalsListView extends AppCompatActivity {
         this.setTitle("Animaux");
 
         instanciateView();
+        setListeners();
 
         setRecyclerItems(animalsListViewManager.getAnimalListToShow());
     }
@@ -166,6 +171,9 @@ public class AnimalsListView extends AppCompatActivity {
 
         animalsListViewManager = new AnimalsListViewManager();
 
+        useAll = findViewById(R.id.allUseButton);
+        useNone = findViewById(R.id.noneUseButton);
+
     }
 
     private void instanciateRecycler(){
@@ -182,6 +190,41 @@ public class AnimalsListView extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), 1);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+    }
+
+    private void setListeners(){
+
+        useAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                for (Animal animal : animalsListViewManager.getAnimalListToShow()){
+
+                    animal.setUsed(true);
+                    DataBase.updateUse(AnimalsListView.this, animal);
+
+                }
+
+                updateRecycler();
+
+            }
+        });
+
+        useNone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                for (Animal animal : animalsListViewManager.getAnimalListToShow()){
+
+                    animal.setUsed(false);
+                    DataBase.updateUse(AnimalsListView.this, animal);
+
+                }
+
+                updateRecycler();
+
+            }
+        });
     }
 
     private void updateRecycler(){
